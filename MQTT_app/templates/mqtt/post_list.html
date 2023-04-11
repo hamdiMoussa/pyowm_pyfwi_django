@@ -1,0 +1,53 @@
+<head>
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    
+    
+    </head>
+    
+    <body>
+    
+    <h1> This is my live Data</h1>
+    <h1><a href="{% url 'update' %}">Click Here To See Hum and Temp</a></h1>
+    
+    
+    <ul id="display">
+    
+    
+    </ul>
+    
+    
+    <script>
+        $(document).ready(function(){
+            
+            setInterval(function(){
+              
+              $.ajax({
+                type:'GET',
+                url : "{% url 'getTemp' %}",
+                success: function(response){
+                  
+                  $("#display").empty();
+                  for (var key in response.TEMP)
+                  {
+                    
+                    var temp ="<h2><li>"+"temperature : "+response.TEMP[key].temperature + " humidity :" +response.TEMP[key].humidity+"</li></h2>";
+                    
+                    // $("#display").append(temp); 
+                    $("#display").html(temp);   
+                  }
+                },
+                error: function(reponse){
+                  
+                  alert("an error occured");
+                }
+              });
+            },1000);
+          });
+          
+    
+    </script>
+    
+    </body>
